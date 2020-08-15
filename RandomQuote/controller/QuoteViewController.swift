@@ -41,26 +41,29 @@ class QuoteViewController: UIViewController {
         quoteManger.fetchQuote() { loadedQuote,error  in
             DispatchQueue.main.async {
 
+                self.activityIndicator.stopAnimating()
+                
                 if (error == nil) {
                 self.quote = loadedQuote
                 }else{
+                    self.showAlert(K.errorMessage)
                     if let lastQoute = self.quoteManger.getLastQoute() {
                         self.quote = lastQoute
                     }
                 }
                 
+                guard let quote = self.quote else {
+                   self.showAlert(K.errorMessage)
+                    return
+                }
+                
                 //set quoteBody and author
-                self.quoteBodyLabel.text = self.quote?.body
-                self.authorLabel.text = self.quote?.author
+                self.quoteBodyLabel.text = quote.body
+                self.authorLabel.text = quote.author
             
-                self.activityIndicator.stopAnimating()
-                    
-    }
-    
+            }
         }
-
-
-}
+    }
     
     // MARK: - IBAction
     
@@ -71,8 +74,10 @@ class QuoteViewController: UIViewController {
     @IBAction func addToFevoratePressed(_ sender: UIButton) {
 
         if let saveQuote = quote {
-            quoteManger.addFevorateQuote(saveQuote)
-
+            let result = quoteManger.addFevorateQuote(saveQuote)
+            if result != nil { showAlert(K.errorMessage) }
+        }else{
+            showAlert(K.errorMessage)
         }
     }
     

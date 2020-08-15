@@ -13,7 +13,7 @@ class QuoteCell: UITableViewCell {
     @IBOutlet weak var quoteBodyLabel: UILabel!
     @IBOutlet weak var authorLabel: UILabel!
     
-     var quote: Quote! {
+     var quote: FevorateQuote! {
          didSet {
              updateUI()
          }

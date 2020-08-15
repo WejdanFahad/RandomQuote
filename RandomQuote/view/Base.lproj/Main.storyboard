@@ -20,8 +20,8 @@
                                 <rect key="frame" x="20" y="138" width="374" height="694"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aGh-83-PBp">
-                                        <rect key="frame" x="0.0" y="0.0" width="102" height="40"/>
-                                        <state key="normal" title="Show Fevorate"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="104" height="40"/>
+                                        <state key="normal" title="Show Favorites"/>
                                         <connections>
                                             <segue destination="awT-Af-wHc" kind="show" id="5pz-dU-Va7"/>
                                         </connections>
@@ -62,7 +62,7 @@
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GMg-T0-yxb">
                                                 <rect key="frame" x="0.0" y="82" width="172" height="30"/>
-                                                <state key="normal" title="Add to Fevorate"/>
+                                                <state key="normal" title="Add to Favorites"/>
                                                 <connections>
                                                     <action selector="addToFevoratePressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hyj-8R-kYG"/>
                                                 </connections>
@@ -99,7 +99,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Random Quote" id="x6D-qx-s92"/>
+                    <navigationItem key="navigationItem" title="Random Quote" id="x6D-qx-s92">
+                        <barButtonItem key="backBarButtonItem" title=" " id="XUb-hK-ILF"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="activityIndicator" destination="Cpb-MU-7Ko" id="e1a-tk-zrL"/>
                         <outlet property="authorLabel" destination="Qwt-wx-F14" id="35J-Dr-mzh"/>
@@ -110,7 +112,7 @@
             </objects>
             <point key="canvasLocation" x="1047.8260869565217" y="73.660714285714278"/>
         </scene>
-        <!--Quote Table View Controller-->
+        <!--Favorites Quote-->
         <scene sceneID="5hw-Xl-wF2">
             <objects>
                 <tableViewController id="awT-Af-wHc" customClass="QuoteTableViewController" customModule="RandomQuote" customModuleProvider="target" sceneMemberID="viewController">
@@ -163,7 +165,7 @@
                             <outlet property="delegate" destination="awT-Af-wHc" id="0ZT-gF-MbJ"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="oe7-CI-U5a"/>
+                    <navigationItem key="navigationItem" title="Favorites Quote" id="oe7-CI-U5a"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y13-sz-5uR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

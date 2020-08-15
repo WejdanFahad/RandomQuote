@@ -63,21 +63,23 @@ class QuoteManger {
         UserDefaults.standard.synchronize()
     }
     
-    func getFevorateQuotes() -> [Quote] {
-        if let data = UserDefaults.standard.value(forKey:K.fevorateKey) as? Data {
-        let decodedQoutes = try? PropertyListDecoder().decode([Quote].self, from: data)
-        return decodedQoutes!
-           }
-        return []
-    }
     
-    func addFevorateQuote(_ quote : Quote) {
+    func addFevorateQuote(_ quote : Quote) -> Error? {
         
-        var fevorateQuote = getFevorateQuotes()
-            fevorateQuote.append(quote)
+        let fevorateQuote = FevorateQuote(context: DataController.shared.viewContext)
+        fevorateQuote.id = quote.id
+        fevorateQuote.body = quote.body
+        fevorateQuote.author = quote.author
         
-        UserDefaults.standard.set(try? PropertyListEncoder().encode(fevorateQuote), forKey:K.fevorateKey)
-               UserDefaults.standard.synchronize()
+        do{
+            
+        try DataController.shared.viewContext.save()
+        
+        }catch{
+            return (error)
+        }
+
+        return nil
     }
     
 

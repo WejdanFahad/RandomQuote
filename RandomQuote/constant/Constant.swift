@@ -13,5 +13,7 @@ struct K {
     static let cellIdentifier = "quoteCell"
     static let fevorateKey = "fevorateQuote"
     static let lastQuoteKey = "lastQuote"
+    static let errorMessage = "an error has accour , try again later"
+    
     
 }

@@ -6,25 +6,47 @@
 //
 
 import UIKit
+import CoreData
 
-class QuoteTableViewController: UITableViewController {
+class QuoteTableViewController: UITableViewController  {
 
-    var qoutes : [Quote] {
-        let quoteManger = QuoteManger()
-        return quoteManger.getFevorateQuotes()
-            
-    }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    var fetchedResultsController: NSFetchedResultsController<FevorateQuote>!
 
-    }
+    override func viewDidLoad() {
+           super.viewDidLoad()
+            fetchSavedQuotes()
+        }
+    
+
+        func fetchSavedQuotes() {
+            let fetchRequest: NSFetchRequest<FevorateQuote> = FevorateQuote.fetchRequest()
+            let sortDescriptor = NSSortDescriptor(key: "id", ascending: true)
+            fetchRequest.sortDescriptors = [sortDescriptor]
+
+            fetchedResultsController = NSFetchedResultsController(
+                fetchRequest: fetchRequest,
+                managedObjectContext: DataController.shared.viewContext,
+                sectionNameKeyPath: nil,
+                cacheName: nil
+            )
+            fetchedResultsController.delegate = self
+            do {
+                try fetchedResultsController.performFetch()
+                
+            } catch {
+                self.showAlert(K.errorMessage)
+                
+            }
+        }
+
+    
 
     // MARK: - Table view data source
 
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return qoutes.count
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
     
@@ -33,10 +55,36 @@ class QuoteTableViewController: UITableViewController {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: K.cellIdentifier, for: indexPath) as! QuoteCell
 
-        let qoute = qoutes[indexPath.row]
+        let qoute = fetchedResultsController.object(at: indexPath)
+
         cell.quote = qoute
 
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        switch editingStyle {
+        case .delete:
+            let qoute = fetchedResultsController.object(at: indexPath)
+            DataController.shared.viewContext.delete(qoute)
+            try? DataController.shared.viewContext.save()
+        default:
+            break
+        }
+    }
+  
+}
+
+
+// MARK: - Fetched Results Controller Delegate
+
+extension QuoteTableViewController: NSFetchedResultsControllerDelegate {
+        
+
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+      
+       tableView.reloadData()
+        
     }
     
 
